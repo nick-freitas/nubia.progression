@@ -11,12 +11,19 @@ import { DBService } from './db.service';
 
 @Injectable()
 export class AppService {
-  constructor(private DBService: DBService) {}
+  constructor(private dBService: DBService) {}
 
   async progressionCreatedHandler(
     data: ProgressionCreatedEvent['data'],
   ): Promise<Progression> {
-    const { id, version } = data;
+    const {
+      id,
+      name,
+      descriptor,
+      destinationChapterId,
+      sourceChapterId,
+      version,
+    } = data;
 
     if (!id) {
       throw new Error('Missing Id');
@@ -27,10 +34,14 @@ export class AppService {
 
     const progression: Progression = {
       id,
+      name,
+      descriptor,
+      destinationChapterId,
+      sourceChapterId,
       version,
     };
 
-    this.DBService.progressions.push({ ...progression });
+    this.dBService.progressions.push({ ...progression });
 
     return progression;
   }
@@ -47,13 +58,13 @@ export class AppService {
       throw new Error('Missing Version');
     }
 
-    const index = this.DBService.progressions.findIndex(
+    const index = this.dBService.progressions.findIndex(
       (progression) => progression.id === id,
     );
     if (index === -1)
       throw new BadRequestException('Bad Id in Progression Update Request');
 
-    const progression = { ...this.DBService.progressions[index] };
+    const progression = { ...this.dBService.progressions[index] };
     if (progression.version !== version - 1)
       throw new OutOfOrderEventException(
         ProgressionEventType.PROGRESSION_UPDATED,
@@ -61,7 +72,7 @@ export class AppService {
         version,
       );
 
-    this.DBService.progressions[index] = {
+    this.dBService.progressions[index] = {
       ...progression,
       ...data,
       version,
