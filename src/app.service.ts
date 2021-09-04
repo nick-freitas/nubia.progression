@@ -4,9 +4,13 @@ import {
   ProgressionUpdatedEvent,
   OutOfOrderEventException,
   ProgressionEventType,
+  GamebookUpdatedEvent,
+  GamebookCreatedEvent,
+  UserUpdatedEvent,
+  UserCreatedEvent,
 } from '@indigobit/nubia.common';
 import { BadRequestException } from '@indigobit/nubia.common/build/errors/bad-request.exception';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { DBService } from './db.service';
 
 @Injectable()
@@ -79,5 +83,25 @@ export class AppService {
     };
 
     return progression;
+  }
+
+  async userCreatedHandler(data: UserCreatedEvent['data']) {
+    console.info(data);
+    throw new NotImplementedException();
+  }
+
+  async userUpdatedHandler(data: UserUpdatedEvent['data']) {
+    console.info(data);
+    throw new NotImplementedException();
+  }
+
+  async gamebookCreatedHandler(data: GamebookCreatedEvent['data']) {
+    console.info(data);
+    throw new NotImplementedException();
+  }
+
+  async gamebookUpdatedHandler(data: GamebookUpdatedEvent['data']) {
+    console.info(data);
+    throw new NotImplementedException();
   }
 }

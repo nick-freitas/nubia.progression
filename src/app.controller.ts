@@ -9,6 +9,7 @@ import {
   isProgressionUpdatedEvent,
   isUserCreatedEvent,
   isUserUpdatedEvent,
+  Progression,
   ProgressionCreatedEvent,
   ProgressionUpdatedEvent,
   RemoveBookFromLibraryEvent,
@@ -53,16 +54,7 @@ export class AppController {
   @MessagePattern(Topics.GAMEBOOKS)
   gamebooks(
     @Payload()
-    {
-      value,
-    }: {
-      value:
-        | GamebookCreatedEvent
-        | GamebookUpdatedEvent
-        | AddBookToLibraryEvent
-        | RemoveBookFromLibraryEvent
-        | GetUserLibraryEvent;
-    },
+    { value }: { value: GamebookCreatedEvent | GamebookUpdatedEvent },
   ): any {
     const { type, data, auth } = value;
     if (!type) {
@@ -88,16 +80,7 @@ export class AppController {
   @MessagePattern(Topics.PROGRESSION)
   progressions(
     @Payload()
-    {
-      value,
-    }: {
-      value:
-        | GamebookCreatedEvent
-        | GamebookUpdatedEvent
-        | AddBookToLibraryEvent
-        | RemoveBookFromLibraryEvent
-        | GetUserLibraryEvent;
-    },
+    { value }: { value: ProgressionCreatedEvent | ProgressionUpdatedEvent },
   ): any {
     const { type, data, auth } = value;
     if (!type) {
